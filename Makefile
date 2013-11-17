@@ -84,6 +84,7 @@ freebsd \
 freebsd-dri \
 freebsd-dri-amd64 \
 freebsd-dri-x86 \
+haiku \
 hpux10 \
 hpux10-gcc \
 hpux10-static \

@@ -92,7 +92,10 @@ debug_printf(const char *format, ...)
 #endif
 }
 
-#endif /* !PIPE_OS_HAIKU */
+#else /* is Haiku */
+/* Haiku provides debug_printf in libroot with OS.h */
+#include <OS.h>
+#endif
 
 /*
  * ... isn't portable so we need to pass arguments in parentheses.
