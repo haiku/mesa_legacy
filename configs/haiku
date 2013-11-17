@@ -53,7 +53,7 @@ GLU_LIB = glu
 # Directories
 SRC_DIRS = glsl mesa/x86 mapi/glapi mesa glu
 GLU_DIRS = sgi
-DRIVER_DIRS =
+DRIVER_DIRS = haiku
 PROGRAM_DIRS =
 
 # Library/program dependencies

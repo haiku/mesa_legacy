@@ -59,7 +59,7 @@
 #    else
 #      define _GLAPI_EXPORT __declspec(dllimport)
 #    endif
-#  elif defined(__GNUC__) || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
+#  elif (defined(__GNUC__) && __GNUC__ >= 4) || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
 #    define _GLAPI_EXPORT __attribute__((visibility("default")))
 #  else
 #    define _GLAPI_EXPORT
