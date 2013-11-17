@@ -198,7 +198,7 @@ extern "C" {
 #  define __builtin_expect(x, y) x
 #endif
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && __GNUC__ > 2
 #define likely(x) __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
 #else

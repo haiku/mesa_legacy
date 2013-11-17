@@ -30,7 +30,7 @@
 
 #include "ralloc.h"
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && __GNUC__ > 2
 #define likely(x)       __builtin_expect(!!(x),1)
 #define unlikely(x)     __builtin_expect(!!(x),0)
 #else
@@ -382,7 +382,7 @@ printf_length(const char *fmt, va_list untouched_args)
 
    /* Make a copy of the va_list so the original caller can still use it */
    va_list args;
-   va_copy(args, untouched_args);
+   __va_copy(args, untouched_args);
 
    size = vsnprintf(&junk, 1, fmt, args);
    assert(size >= 0);

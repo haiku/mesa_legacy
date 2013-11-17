@@ -75,7 +75,7 @@ struct vertex_header {
 
    /* This will probably become float (*data)[4] soon:
     */
-   float data[][4];
+   float (*data)[4];
 };
 
 /* NOTE: It should match vertex_id size above */
