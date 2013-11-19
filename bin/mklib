@@ -307,7 +307,7 @@ fi
 #
 case $ARCH in
 
-    'Linux' | 'OpenBSD' | 'DragonFly' | 'GNU' | GNU/* | 'NetBSD' | 'Haiku')
+    'Linux' | 'OpenBSD' | 'DragonFly' | 'GNU' | GNU/* | 'NetBSD')
 	# we assume gcc
 
 	if [ "x$LINK" = "x" ] ; then
@@ -960,17 +960,16 @@ case $ARCH in
 	;;
 
 	'Haiku')
+		if [ "x$LINK" = "x" ] ; then
+			# -linker was not specified so set default link command now
+			if [ $CPLUSPLUS = 1 ] ; then
+				LINK=g++
+			else
+				LINK=gcc
+			fi
+		fi
 		if [ $STATIC = 1 ] ; then
 			LIBNAME="lib${LIBNAME}.a"
-			if [ "x$LINK" = "x" ] ; then
-				# -linker was not specified so set default link command now
-				if [ $CPLUSPLUS = 1 ] ; then
-					LINK=g++
-				else
-					LINK=gcc
-				fi
-			fi
-
 			OPTS="-ru"
 			if [ "${ALTOPTS}" ] ; then
 				OPTS=${ALTOPTS}
@@ -990,8 +989,11 @@ case $ARCH in
 			LIBNAME="lib${LIBNAME}.so"  # prefix with "lib", suffix with ".so"
 			OPTS="-shared"
 
+			# expand .a into .o files
+			NEW_OBJECTS=`expand_archives ${LIBNAME}.obj $OBJECTS`
+
 			echo "mklib: Making shared library for Haiku: " ${LIBNAME}
-			${LINK} ${OPTS} ${LDFLAGS} ${OBJECTS} ${DEPS} -o ${LIBNAME}
+			${LINK} ${OPTS} ${LDFLAGS} ${NEW_OBJECTS} ${DEPS} -o ${LIBNAME}
 			FINAL_LIBS="${LIBNAME}"
 		fi
 	;;
