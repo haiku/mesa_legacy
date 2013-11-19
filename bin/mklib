@@ -307,7 +307,7 @@ fi
 #
 case $ARCH in
 
-    'Linux' | 'OpenBSD' | 'DragonFly' | 'GNU' | GNU/* | 'NetBSD')
+    'Linux' | 'OpenBSD' | 'DragonFly' | 'GNU' | GNU/* | 'NetBSD' | 'Haiku')
 	# we assume gcc
 
 	if [ "x$LINK" = "x" ] ; then
