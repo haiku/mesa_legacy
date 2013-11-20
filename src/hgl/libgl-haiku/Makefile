@@ -8,6 +8,7 @@ SOURCES = \
       GLView.cpp
 
 GLAPI_LIB = $(TOP)/src/mapi/glapi/libglapi.a
+GLU_LIB = $(TOP)/src/glu/sgi/$(GLU_LIB_NAME)
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
@@ -42,9 +43,8 @@ $(GLAPI_LIB):
 # Make libGL
 $(TOP)/$(LIB_DIR)/$(GL_LIB_NAME): $(OBJECTS) $(GLAPI_LIB) Makefile
 	$(MKLIB) -o $(GL_LIB) -linker '$(CXX)' -ldflags '$(LDFLAGS)' \
-		-cplusplus $(MKLIB_OPTIONS) \
-		-install $(TOP)/$(LIB_DIR) -id $(INSTALL_LIB_DIR)/lib$(GL_LIB).1.dylib \
-		$(GL_LIB_DEPS) $(GLAPI_LIB) $(OBJECTS)
+		-cplusplus $(MKLIB_OPTIONS) -install $(TOP)/$(LIB_DIR) \
+		$(GL_LIB_DEPS) $(GLAPI_LIB) $(OBJECTS) $(GLU_LIB)
 
 # Remove .o and backup files
 clean:

@@ -46,16 +46,22 @@ else
 	CFLAGS   += -O3
 endif
 
+# GLU settings
+GLU_LIB_NAME = libglu.a
+GLU_DIRS = sgi
+GLU_LIB = glu
+
 # GL settings
 GL_LIB_NAME = libGL.so
 GL_LIB = GL
 
 # Directories
-SRC_DIRS = glsl mesa/x86 mapi/glapi hgl mesa
+SRC_DIRS = glsl mesa/x86 mapi/glapi hgl mesa glu
 DRIVER_DIRS = haiku
 PROGRAM_DIRS =
 
 # Library/program dependencies
 GL_LIB_DEPS = 
+GLU_LIB_DEPS =
 OSMESA_LIB_DEPS = -L$(TOP)/$(LIB_DIR) -l$(GL_LIB)
 APP_LIB_DEPS = -lbe -L$(TOP)/$(LIB_DIR) -l$(GL_LIB) -l$(GLUT_LIB)

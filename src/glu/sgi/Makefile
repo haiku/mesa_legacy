@@ -112,6 +112,7 @@ CC_OBJECTS = $(CC_SOURCES:.cc=.o)
 OBJECTS = $(C_OBJECTS) $(CC_OBJECTS)
 
 
+
 ##### RULES #####
 
 .c.o:
@@ -124,26 +125,16 @@ OBJECTS = $(C_OBJECTS) $(CC_OBJECTS)
 ##### TARGETS #####
 
 default:
-	@if [ "${CONFIG_NAME}" = "beos" ] ; then \
-		echo "$(GLU_LIB_NAME) not build under BeOS, but integrated into ${GL_LIB_NAME}." ; \
-		exit 0 ; \
-	else \
-		$(MAKE) $(TOP)/$(LIB_DIR)/$(GLU_LIB_NAME) || exit 1 ; \
-	fi
-
-$(TOP)/$(LIB_DIR):
-	-mkdir $(TOP)/$(LIB_DIR)
+		$(MAKE) $(GLU_LIB_NAME) || exit 1 ;
 
 # Make the library:
-$(TOP)/$(LIB_DIR)/$(GLU_LIB_NAME): $(OBJECTS)
-	$(MKLIB) -o $(GLU_LIB) -linker '$(CXX)' -ldflags '$(LDFLAGS)' \
-		-major $(GLU_MAJOR) -minor $(GLU_MINOR) -patch $(GLU_TINY) \
-		-cplusplus $(MKLIB_OPTIONS) -install $(TOP)/$(LIB_DIR) \
-		-exports glu.exports -id $(INSTALL_LIB_DIR)/lib$(GLU_LIB).$(GLU_MAJOR).dylib \
-		$(GLU_LIB_DEPS) $(OBJECTS)
-
+$(GLU_LIB_NAME): $(OBJECTS)
+		$(MKLIB) -o $(GLU_LIB) -linker '$(CXX)' -ldflags '$(LDFLAGS)' \
+			-cplusplus $(MKLIB_OPTIONS) -static \
+			$(GLU_LIB_DEPS) $(OBJECTS)
 
 clean:
+	-rm -f *.a */*.a */*/*.a
 	-rm -f *.o */*.o */*/*.o
 	-rm -f *.lo */*.lo */*/*.lo
 	-rm -f *.la */*.la */*/*.la
