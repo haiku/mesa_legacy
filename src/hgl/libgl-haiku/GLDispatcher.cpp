@@ -70,3 +70,62 @@ BGLDispatcher::SetTable(struct _glapi_table* table)
 	_glapi_set_dispatch(table);
 	return B_OK;
 }
+
+// TODO: These were inlined, however gcc2 seems to have a bug
+// where inlines that call extern "C" functions called from C++
+// code result in the originating call using the C++ symbol linkage
+// for a C function
+void
+BGLDispatcher::SetCurrentContext(void* context)
+{
+	_glapi_set_context(context);
+}
+
+
+void*
+BGLDispatcher::CurrentContext()
+{
+	return _glapi_get_context();
+}
+
+
+struct _glapi_table*
+BGLDispatcher::Table()
+{
+	return _glapi_get_dispatch();
+}
+
+
+uint32
+BGLDispatcher::TableSize()
+{
+	return _glapi_get_dispatch_table_size();
+}
+
+
+const _glapi_proc
+BGLDispatcher::operator[](const char* functionName)
+{
+	return _glapi_get_proc_address(functionName);
+}
+
+
+const char*
+BGLDispatcher::operator[](uint32 offset)
+{
+	return _glapi_get_proc_name((GLuint) offset);
+}
+
+
+const _glapi_proc
+BGLDispatcher::AddressOf(const char* functionName)
+{
+	return _glapi_get_proc_address(functionName);
+}
+
+
+uint32
+BGLDispatcher::OffsetOf(const char* functionName)
+{
+	return (uint32) _glapi_get_proc_offset(functionName);
+}
