@@ -56,7 +56,7 @@ GL_LIB_NAME = libGL.so
 GL_LIB = GL
 
 # Directories
-SRC_DIRS = glsl mesa/x86 mapi/glapi hgl mesa glu
+SRC_DIRS = glsl mesa/x86 mapi/glapi mesa glu hgl
 DRIVER_DIRS = haiku
 PROGRAM_DIRS =
 
