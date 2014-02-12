@@ -57,8 +57,11 @@ BGLView::BGLView(BRect rect, const char* name, ulong resizingMode, ulong mode,
 BGLView::~BGLView()
 {
 	delete fClipInfo;
-	if (fRenderer)
+	if (fRenderer) {
 		fRenderer->Release();
+		fRenderer = NULL;
+	}
+	delete fRoster;
 }
 
 

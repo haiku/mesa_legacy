@@ -79,7 +79,14 @@ GLRendererRoster::GLRendererRoster(BGLView* view, ulong options)
 
 GLRendererRoster::~GLRendererRoster()
 {
-
+	RendererMap::iterator iterator = fRenderers.begin();
+	for (; iterator != fRenderers.end(); iterator++) {
+		struct renderer_item item = iterator->second;
+		image_id image = item.image;
+		item.renderer->Release();
+		// this will delete the renderer
+		unload_add_on(image);
+	}
 }
 
 
@@ -91,6 +98,7 @@ GLRendererRoster::GetRenderer(int32 id)
 		return NULL;
 
 	struct renderer_item item = iterator->second;
+	item.renderer->Acquire();
 	return item.renderer;
 }
 
@@ -105,7 +113,7 @@ GLRendererRoster::AddDefaultPaths()
 		B_SYSTEM_ADDONS_DIRECTORY,
 	};
 
-	for (uint32 i = fSafeMode ? 4 : 0;
+	for (uint32 i = fSafeMode ? 3 : 0;
 		i < sizeof(paths) / sizeof(paths[0]); i++) {
 		BPath path;
 		status_t status = find_directory(paths[i], &path, true);
