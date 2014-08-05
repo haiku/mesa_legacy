@@ -23,6 +23,7 @@ INCLUDES = \
 	-I. \
 	-I- \
 	-I$(TOP)/include \
+	-I$(TOP)/include/HGL \
 	-I/boot/system/develop/headers/private/interface/
 
 DRIVER_SOURCES = \

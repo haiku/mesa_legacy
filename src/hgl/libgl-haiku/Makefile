@@ -15,6 +15,7 @@ OBJECTS = $(SOURCES:.cpp=.o)
 INCLUDES = -I. \
     -I$(TOP)/include \
     -I$(TOP)/include/GL/internal \
+    -I$(TOP)/include/HGL \
     -I$(TOP)/src/mesa \
 	-I$(TOP)/src/mesa/main \
     -I$(TOP)/src/mapi \
