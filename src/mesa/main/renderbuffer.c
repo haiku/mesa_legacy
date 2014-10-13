@@ -1595,6 +1595,7 @@ _mesa_add_alpha_renderbuffers(GLcontext *ctx, struct gl_framebuffer *fb,
        * values.
        */
       arb->InternalFormat = arb->Wrapped->InternalFormat;
+      arb->_BaseFormat    = arb->Wrapped->_BaseFormat;
       arb->Format         = MESA_FORMAT_A8;
       arb->DataType       = arb->Wrapped->DataType;
       arb->AllocStorage   = alloc_storage_alpha8;
