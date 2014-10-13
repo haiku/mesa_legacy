@@ -23,6 +23,7 @@
 
 #include <new>
 #include <string.h>
+#include <strings.h>
 
 
 extern "C" status_t _kern_get_safemode_option(const char* parameter,
