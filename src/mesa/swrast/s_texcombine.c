@@ -86,7 +86,7 @@ texture_combine( GLcontext *ctx, GLuint unit, GLuint n,
    const GLfloat scaleA = (GLfloat) (1 << combine->ScaleShiftA);
    const GLuint numArgsRGB = combine->_NumArgsRGB;
    const GLuint numArgsA = combine->_NumArgsA;
-   GLfloat ccolor[MAX_COMBINER_TERMS][MAX_WIDTH][4]; /* temp color buffers */
+   GLfloat* ccolor[MAX_COMBINER_TERMS]; /* temp color buffers */
    GLfloat rgba[MAX_WIDTH][4];
    GLuint i, term;
 
@@ -114,6 +114,7 @@ texture_combine( GLcontext *ctx, GLuint unit, GLuint n,
       const GLenum srcRGB = combine->SourceRGB[term];
       const GLenum operandRGB = combine->OperandRGB[term];
 
+      ccolor[term] = malloc(MAX_WIDTH * 4 * sizeof(GLfloat));
       switch (srcRGB) {
          case GL_TEXTURE:
             argRGB[term] = get_texel_array(swrast, unit);
@@ -162,8 +163,11 @@ texture_combine( GLcontext *ctx, GLuint unit, GLuint n,
             {
                const GLuint srcUnit = srcRGB - GL_TEXTURE0;
                ASSERT(srcUnit < ctx->Const.MaxTextureUnits);
-               if (!ctx->Texture.Unit[srcUnit]._ReallyEnabled)
+               if (!ctx->Texture.Unit[srcUnit]._ReallyEnabled) {
+                  for (term = 0; term < numArgsRGB; term++)
+                      free(ccolor[term]);
                   return;
+               }
                argRGB[term] = get_texel_array(swrast, srcUnit);
             }
       }
@@ -252,8 +256,11 @@ texture_combine( GLcontext *ctx, GLuint unit, GLuint n,
             {
                const GLuint srcUnit = srcA - GL_TEXTURE0;
                ASSERT(srcUnit < ctx->Const.MaxTextureUnits);
-               if (!ctx->Texture.Unit[srcUnit]._ReallyEnabled)
+               if (!ctx->Texture.Unit[srcUnit]._ReallyEnabled) {
+                  for (term = 0; term < numArgsRGB; term++)
+                      free(ccolor[term]);
                   return;
+               }
                argA[term] = get_texel_array(swrast, srcUnit);
             }
       }
@@ -411,6 +418,8 @@ texture_combine( GLcontext *ctx, GLuint unit, GLuint n,
             rgba[i][BCOMP] = 0.0;
             rgba[i][ACOMP] = 1.0;
 	 }
+         for (term = 0; term < numArgsRGB; term++)
+             free(ccolor[term]);
          return; /* no alpha processing */
       default:
          _mesa_problem(ctx, "invalid combine mode");
@@ -519,6 +528,8 @@ texture_combine( GLcontext *ctx, GLuint unit, GLuint n,
       UNCLAMPED_FLOAT_TO_CHAN(rgbaChan[i][BCOMP], rgba[i][BCOMP]);
       UNCLAMPED_FLOAT_TO_CHAN(rgbaChan[i][ACOMP], rgba[i][ACOMP]);
    }
+   for (term = 0; term < numArgsRGB; term++)
+      free(ccolor[term]);
 }
 
 
