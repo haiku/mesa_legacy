@@ -26,3 +26,7 @@ cscope*
 config.py
 build
 .dir-locals.el
+
+src/glsl/glcpp/glcpp-lex.c
+src/glsl/glcpp/glcpp-parse.c
+src/glsl/glsl_lexer.cpp
