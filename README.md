@@ -2,7 +2,7 @@ mesa_legacy
 ===========
 This is the Mesa 7.9.2+ legacy fork for the BeOS compatible Haiku gcc2 images. This is a full fork, do not erase this repo!
 
-Mesa versions after 7.9.2 no longer build under GCC 2 due to advancements in the C stdandard used by the Mesa project.
+Mesa versions after 7.9.2 are no longer build under GCC 2 due to advancements in the C standard used by the Mesa project.
 
 Haiku gcc4+ images do ***not*** use this code. Haiku gcc4+ uses mainline [upstream Mesa](http://cgit.freedesktop.org/mesa/mesa).
 
